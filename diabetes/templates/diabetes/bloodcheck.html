@@ -1,0 +1,19 @@
+{% load jalali_tags %} {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت قند خون</title>
+  </head>
+  <body>
+    <form method="post">
+      {% csrf_token %}
+      <label>قند خون</label>{{form.bloodsugar}}
+      <label>زمان چک قند</label>{{form.time}}
+      <label>تاریخ چک قند</label>{{form.date}}
+      <input type="submit" class="btn btn-success" value="ثبت" />
+    </form>
+  </body>
+  {{form.media}}
+</html>

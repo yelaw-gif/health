@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ type }} Detail</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .nav-button:hover {
+        background-color: #45a049;
+      }
+      .delete-button {
+        background-color: #f44336;
+      }
+      .delete-button:hover {
+        background-color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>{{ type }} Detail</h1>
+    <a href="{% url 'home' %}" class="nav-button">Home</a>
+    {% if type == "InsulinInjection" or type == "Food" %}
+    <a href="{% url 'insulin-food-list' %}" class="nav-button"
+      >Back to Insulin/Food Log</a
+    >
+    {% elif type == "Bloodcheck" %}
+    <a href="{% url 'bloodcheck_list' %}" class="nav-button"
+      >Back to Blood Check Log</a
+    >
+    {% endif %}
+
+    <h2>Details</h2>
+    <p><strong>Time:</strong> {{ instance.time }}</p>
+    <p><strong>Date:</strong> {{ jalali_date }}</p>
+    {% if type == "InsulinInjection" %}
+    <p><strong>Insulin Type:</strong> {{ instance.insulin_type }}</p>
+    <p><strong>Insulin Dose:</strong> {{ instance.insulin_dose }}</p>
+    <p><strong>Injection Site:</strong> {{ instance.injection_site }}</p>
+    {% elif type == "Food" %}
+    <p><strong>Food:</strong> {{ instance.food|default:"-" }}</p>
+    <p><strong>Carbs:</strong> {{ instance.carbs|default:"-" }}</p>
+    {% elif type == "Bloodcheck" %}
+    <p><strong>Blood Sugar:</strong> {{ instance.bloodsugar|default:"-" }}</p>
+    <p><strong>Event:</strong> {{ instance.event|default:"-" }}</p>
+    <!-- Added Event -->
+    {% endif %} {% if type == "InsulinInjection" %}
+    <a href="{% url 'insulin_edit' id=instance.id %}" class="nav-button"
+      >Edit</a
+    >
+    <a
+      href="{% url 'insulin_delete' id=instance.id %}"
+      class="nav-button delete-button"
+      >Delete</a
+    >
+    {% elif type == "Food" %}
+    <a href="{% url 'food_edit' id=instance.id %}" class="nav-button">Edit</a>
+    <a
+      href="{% url 'food_delete' id=instance.id %}"
+      class="nav-button delete-button"
+      >Delete</a
+    >
+    {% elif type == "Bloodcheck" %}
+    <a href="{% url 'bloodcheck_edit' id=instance.id %}" class="nav-button"
+      >Edit</a
+    >
+    <a
+      href="{% url 'bloodcheck_delete' id=instance.id %}"
+      class="nav-button delete-button"
+      >Delete</a
+    >
+    {% endif %}
+  </body>
+</html>

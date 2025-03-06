@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Delete {{ type }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .nav-button:hover {
+        background-color: #45a049;
+      }
+      .delete-button {
+        background-color: #f44336;
+      }
+      .delete-button:hover {
+        background-color: #d32f2f;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Delete {{ type }}</h1>
+    <a href="{% url 'home' %}" class="nav-button">Home</a>
+    {% if type == "InsulinInjection" %}
+    <a href="{% url 'insulin_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% elif type == "Food" %}
+    <a href="{% url 'food_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% elif type == "Bloodcheck" %}
+    <a href="{% url 'bloodcheck_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% endif %}
+
+    <p>Are you sure you want to delete this {{ type|lower }}?</p>
+    <form method="post">
+      {% csrf_token %}
+      <button type="submit" class="nav-button delete-button">
+        Confirm Delete
+      </button>
+    </form>
+  </body>
+</html>

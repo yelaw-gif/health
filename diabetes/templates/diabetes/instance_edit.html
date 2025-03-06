@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Edit {{ type }}</title>
+    {% load static %}
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .nav-button:hover {
+        background-color: #45a049;
+      }
+    </style>
+    {{ form.media }}
+  </head>
+  <body>
+    <h1>Edit {{ type }}</h1>
+    <a href="{% url 'home' %}" class="nav-button">Home</a>
+    {% if type == "InsulinInjection" %}
+    <a href="{% url 'insulin_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% elif type == "Food" %}
+    <a href="{% url 'food_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% elif type == "Bloodcheck" %}
+    <a href="{% url 'bloodcheck_detail' id=instance.id %}" class="nav-button"
+      >Back to Detail</a
+    >
+    {% endif %}
+
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" class="nav-button">Save Changes</button>
+    </form>
+  </body>
+</html>

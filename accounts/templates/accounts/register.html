@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ثبت نام</title>
+  </head>
+  <body>
+    <h2>ثبت نام</h2>
+    <form method="POST">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="ثبت">Register</button>
+    </form>
+    <p>اکانت دارید؟ <a href="{% url 'login' %}">Login</a></p>
+  </body>
+</html>

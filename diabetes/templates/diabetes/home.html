@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Home - Diabetes Tracker</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css"
+    />
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .nav-button {
+        display: inline-block;
+        padding: 10px 20px;
+        margin: 5px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .nav-button:hover {
+        background-color: #45a049;
+      }
+      .auth-section {
+        margin-top: 20px;
+      }
+      .form-section {
+        margin-top: 20px;
+      }
+      .hidden {
+        display: none;
+      }
+      .time-input {
+        padding: 8px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        font-size: 16px;
+        width: 100px;
+      }
+    </style>
+    {{ bloodcheck_form.media }} {{ insulin_food_form.media }}
+  </head>
+  <body>
+    <h1>Welcome to Diabetes Tracker</h1>
+
+    {% if is_authenticated %}
+    <p>Hello, {{ username }}!</p>
+    {% else %}
+    <p>Please log in to access your data.</p>
+    {% endif %}
+
+    <h2>Actions</h2>
+    {% if is_authenticated %}
+    <a href="{% url 'insulin-food-list' %}" class="nav-button"
+      >View Insulin/Food Log</a
+    >
+    <a href="{% url 'bloodcheck_list' %}" class="nav-button"
+      >View Blood Check Log</a
+    >
+
+    <div>
+      <a href="?form_type=bloodcheck" class="nav-button"
+        >Show Blood Check Form</a
+      >
+      <a href="?form_type=insulin_food" class="nav-button"
+        >Show Insulin/Food Form</a
+      >
+    </div>
+
+    <div class="form-section">
+      <div
+        id="bloodcheck_form"
+        class="{% if form_type != 'bloodcheck' %}hidden{% endif %}"
+      >
+        <h3>Add Blood Check</h3>
+        <form method="post">
+          {% csrf_token %} {{ bloodcheck_form.as_p }}
+          <button type="submit" name="bloodcheck_submit" class="nav-button">
+            Save Blood Check
+          </button>
+        </form>
+      </div>
+
+      <div
+        id="insulin_food_form"
+        class="{% if form_type != 'insulin_food' %}hidden{% endif %}"
+      >
+        <h3>Add Insulin/Food Entry</h3>
+        <form method="post">
+          {% csrf_token %} {{ insulin_food_form.as_p }}
+          <button type="submit" name="insulin_food_submit" class="nav-button">
+            Save Insulin/Food
+          </button>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <p>Log in to access these features.</p>
+    {% endif %}
+
+    <div class="auth-section">
+      {% if is_authenticated %}
+      <a href="{% url 'logout' %}" class="nav-button">Logout</a>
+      {% else %}
+      <a href="{% url 'login' %}" class="nav-button">Login</a>
+      {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        flatpickr(".time-input", {
+          enableTime: true,
+          noCalendar: true,
+          dateFormat: "H:i",
+          time_24hr: true,
+          minuteIncrement: 1,
+        });
+      });
+    </script>
+  </body>
+</html>
